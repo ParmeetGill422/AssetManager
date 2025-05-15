@@ -54,12 +54,21 @@ class House extends Asset {
 
     @Override
     public double getValue() {
-        double baseRate = switch (condition) {
-            case 1 -> 180.00;
-            case 2 -> 130.00;
-            case 3 -> 90.00;
-            default -> 80.00;
-        };
+        double baseRate;
+        switch (condition) {
+            case 1:
+                baseRate = 180.00;
+                break;
+            case 2:
+                baseRate = 130.00;
+                break;
+            case 3:
+                baseRate = 90.00;
+                break;
+            default:
+                baseRate = 80.00;
+                break;
+        }
         return squareFoot * baseRate + lotSize * 0.25;
     }
 }
@@ -102,7 +111,8 @@ class Vehicle extends Asset {
             value = 1000.00;
         }
 
-        if (odometer > 100000 && !makeModel.toLowerCase().contains("honda") && !makeModel.toLowerCase().contains("toyota")) {
+        String modelLower = makeModel.toLowerCase();
+        if (odometer > 100000 && !(modelLower.contains("honda") || modelLower.contains("toyota"))) {
             value *= 0.75;
         }
 
@@ -112,7 +122,7 @@ class Vehicle extends Asset {
 
 public class AssetManager {
     public static void main(String[] args) {
-        ArrayList<Asset> assets = new ArrayList<>();
+        ArrayList<Asset> assets = new ArrayList<Asset>();
 
         assets.add(new House("My house", "2015-06-15", 250000, "123 Main St", 1, 2000, 5000));
         assets.add(new House("Vacation home", "2018-09-01", 180000, "456 Lake View", 2, 1500, 4000));
